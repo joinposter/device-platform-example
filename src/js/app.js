@@ -2,6 +2,8 @@
 
 import '../css/styles.css';
 
+import 'babel-polyfill';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -11,20 +13,20 @@ export default class DeviceHandshakeApp extends React.Component {
 
         // Показываем кнопки приложения в окне настроек и заказа
         Poster.interface.showApplicationIconAt({
-            functions: 'Platform devices',
-            order: 'Platform devices',
+            functions: 'Say 👋',
+            order: 'Say 👋',
         });
 
         // Подписываемся на клик по кнопке
         Poster.on('applicationIconClicked', (data) => {
-            Poster.interface.popup({ width: 500, height: 400, title: "Platform devices" });
+            this.sendMessage();
         });
 
-        Poster.on('deviceMessage', () => {
+        Poster.on('deviceMessage', (msg) => {
             Poster.interface.showNotification({
-                title: 'Message from device',
-                message: 'Hello!',
-                icon: 'https://demo.joinposter.com/upload/apps/icons/posterboss-ios.png',
+                title: 'Device Message',
+                message: msg.text || 'Hi there ✨',
+                icon: 'https://dev.joinposter.com/public/apps/image.png',
             })
         });
     }
@@ -32,18 +34,16 @@ export default class DeviceHandshakeApp extends React.Component {
     sendMessage = async () => {
         let devices = await Poster.devices.getAll() || [];
         devices.forEach((device) => {
-            console.log('send message to', device);
-            device.sendMessage({ text: 'Hello, World!' });
+            device.sendMessage({
+                text: 'Hello, World!',
+                terminalId: Poster.settings.accountUrl + Poster.settings.spotTabletId
+            });
         });
     };
 
     render() {
         return (
-            <div className="device-handshake">
-                <button onClick={this.sendMessage} className="btn-green btn-device">
-                    Say 👋
-                </button>
-            </div>
+            <div className="device-handshake" />
         )
     }
 }
