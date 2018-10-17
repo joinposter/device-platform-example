@@ -30,13 +30,11 @@ export default class DeviceHandshakeApp extends React.Component {
     }
 
     sendMessage = async () => {
-        let result = await Poster.devices.getAll();
-        if (result.success) {
-            result.devices.forEach((device) => {
-                console.log('send message to', device);
-                device.sendMessage({ text: 'Hello, World!' });
-            });
-        }
+        let devices = await Poster.devices.getAll() || [];
+        devices.forEach((device) => {
+            console.log('send message to', device);
+            device.sendMessage({ text: 'Hello, World!' });
+        });
     };
 
     render() {
