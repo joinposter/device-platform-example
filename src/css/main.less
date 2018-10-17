@@ -1,0 +1,50 @@
+@import "basic-bootstrap";
+
+html, html body {
+    // Default Poster fonts
+    color: #222;
+    font-weight: normal;
+    font-size: 16px;
+    font-family: Lato, 'Helvetica Neue', Helvetica, sans-serif;
+
+    h1 {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .btn {
+        height: auto;
+    }
+
+    #app-container, #app-container form {
+        height: 100%;
+        position: relative;
+    }
+
+    input.form-control {
+        border: 1px solid #eeeeee;
+        box-shadow: none;
+        height: 40px;
+
+        &:active, &:focus {
+            border: 1px solid #4A90E2;
+            box-shadow: none;
+        }
+    }
+
+    .footer {
+        position: absolute;
+        height: 70px;
+
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+
+        border-top: 1px solid #eeeeee;
+
+        .btn {
+            float: right;
+            margin-top: 20px;
+        }
+    }
+}
