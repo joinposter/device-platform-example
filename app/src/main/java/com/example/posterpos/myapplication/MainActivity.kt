@@ -5,15 +5,11 @@ import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.google.gson.JsonParser
 import com.joinposter.transport.PosterTransport
 import com.joinposter.transport.server.PosterDevice
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    //Contains IDs of connected Terminals
-    private val terminals = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
 
         SendBtn.setOnClickListener {
-            terminals.forEach { PosterTransport.sendMessage(it, "{\"text\":\"Hello!\"}") }
+            PosterTransport.devices.forEach { it.sendMessage("{\"text\":\"Hello!\"}") }
         }
         Log.e("MA", PosterTransport.toString())
         PosterTransport.with(applicationContext, "272")
@@ -36,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             Toast.makeText(this, "Message: $message\nTo: ${device.ip}", Toast.LENGTH_SHORT).show()
         }
-        terminals.add(JsonParser().parse(message).asJsonObject["terminalId"].asString)
         Log.d("Lib", "Message: $message\nFrom: ${device.ip}")
     }
 
