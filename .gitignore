@@ -1,6 +1,20 @@
+# JS
 node_modules/
 bundle.js
 bundle.js.map
-.DS_Store
+
+# Android
+*.iml
+.gradle
+/build
+/app/build
+/local.properties
+/captures
+.externalNativeBuild
+
+# Studio
 .idea/
 manifest.json
+
+# System
+.DS_Store
