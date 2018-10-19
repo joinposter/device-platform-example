@@ -3,7 +3,6 @@ package com.example.posterpos.myapplication
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.Toast
 import com.joinposter.transport.PosterTransport
 import com.joinposter.transport.server.PosterDevice
@@ -21,10 +20,11 @@ class MainActivity : AppCompatActivity() {
         SendBtn.setOnClickListener {
             PosterTransport.devices.forEach { it.sendMessage("{\"text\":\"Hello!\"}") }
         }
-        Log.e("MA", PosterTransport.toString())
-        PosterTransport.with(applicationContext, "272")
-        PosterTransport.onOpen = this.onOpen
+
+        PosterTransport.init(applicationContext, "272")
+        //We want to track what terminal sends to us
         PosterTransport.onMessage = this.onMessage
+        //Make current device visible to Poster terminal
         PosterTransport.start()
     }
 
@@ -32,10 +32,5 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             Toast.makeText(this, "Message: $message\nTo: ${device.ip}", Toast.LENGTH_SHORT).show()
         }
-        Log.d("Lib", "Message: $message\nFrom: ${device.ip}")
-    }
-
-    private val onOpen: () -> String = {
-        "{\"action\":\"handshake\"}"
     }
 }
