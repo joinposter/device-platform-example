@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val onMessage: (device: PosterDevice, message: String) -> Unit = { device, message ->
         runOnUiThread {
-            Toast.makeText(this, "Message: $message\nTo: ${device.ip}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Message: $message\nFrom: ${device.ip}", Toast.LENGTH_SHORT).show()
         }
     }
 }
