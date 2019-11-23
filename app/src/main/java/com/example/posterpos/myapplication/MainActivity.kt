@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.SendBtn
 
 private const val TAG = "PosterTransport"
 private const val APP_ID = "272"
+private const val NOTIFICATION_APP_NAME = "Sample app" // Optional parameter
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Initializing library
-            init(applicationContext, APP_ID)
+            init(applicationContext, APP_ID, NOTIFICATION_APP_NAME)
         }
 
         // Make current device visible to Poster terminals
