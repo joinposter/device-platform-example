@@ -24,8 +24,6 @@ Poster.on('applicationIconClicked', async () => {
 Poster.on('deviceMessage', (data) => {
     const { device, message } = data;
 
-    alert(JSON.stringify(data));
-
     Poster.interface.showNotification({
         title: 'Device Message',
         message: message.text,
