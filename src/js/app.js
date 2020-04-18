@@ -1,54 +1,34 @@
-'use strict';
-
-import '../css/styles.css';
-
 import 'babel-polyfill';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+// Will show button to send message
+Poster.interface.showApplicationIconAt({
+    functions: 'Say 👋',
+    order: 'Say 👋',
+});
 
-export default class DeviceHandshakeApp extends React.Component {
-    constructor(props) {
-        super(props);
 
-        // Показываем кнопки приложения в окне настроек и заказа
-        Poster.interface.showApplicationIconAt({
-            functions: 'Say 👋',
-            order: 'Say 👋',
+// Will send message to device
+Poster.on('applicationIconClicked', async () => {
+    let devices = await Poster.devices.getAll() || [];
+
+    devices.forEach((device) => {
+        device.sendMessage({
+            text: 'Hello, World!',
+            terminalId: Poster.settings.accountUrl + Poster.settings.spotTabletId
         });
+    });
+});
 
-        // Подписываемся на клик по кнопке
-        Poster.on('applicationIconClicked', (data) => {
-            this.sendMessage();
-        });
 
-        Poster.on('deviceMessage', (msg) => {
-            Poster.interface.showNotification({
-                title: 'Device Message',
-                message: msg.text || 'Hi there ✨',
-                icon: 'https://dev.joinposter.com/public/apps/image.png',
-            })
-        });
-    }
+// Show notification on message from Device
+Poster.on('deviceMessage', (data) => {
+    const { device, message } = data;
 
-    sendMessage = async () => {
-        let devices = await Poster.devices.getAll() || [];
-        devices.forEach((device) => {
-            device.sendMessage({
-                text: 'Hello, World!',
-                terminalId: Poster.settings.accountUrl + Poster.settings.spotTabletId
-            });
-        });
-    };
+    alert(JSON.stringify(data));
 
-    render() {
-        return (
-            <div className="device-handshake" />
-        )
-    }
-}
-
-ReactDOM.render(
-    <DeviceHandshakeApp />,
-    document.getElementById('app-container')
-);
+    Poster.interface.showNotification({
+        title: 'Device Message',
+        message: message.text,
+        icon: 'https://dev.joinposter.com/public/apps/image.png',
+    });
+});
